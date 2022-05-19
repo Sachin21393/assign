@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+  <title>Document</title>
+
+</head>
+<body>
+  <!-- <a class="nav-link" href="#"  style="color: #0051ed;" class="gradient-border" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Sign up </a>
+  <a class="nav-link" href="#"  style="color: #0051ed;" class="gradient-border" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Sign up </a> -->
+  
+  <div class="box" id="heading">
+    <h1> <%= listTitle %> </h1>
+  </div>
+  
+  
+  <div class="box">
+
+<button onclick="f1()">C</button>
+  <%  newListItems.forEach(function(item){ %>
+
+    <form action="/delete" method="post">
+      <div class="item">
+        <input type="checkbox" name="checkbox" value="<%=item._id%>" onChange="this.form.submit()">
+        <p><%=item.name%></p>
+      </div>
+      <input type="hidden" name="listName" value="<%= listTitle %>"></input>
+    </form>
+  <%  }) %>
+<input type="text" id="fill">
+
+      <form class="item" action="/" method="post">
+        <input type="text" name="newItem" placeholder="New Item" autocomplete="off" id="give">
+        <button type="submit" onclick="f2()" name="list" value="<%= listTitle %>" >+</button>
+      </form>
+  </div>
+
+
+
+</body>
+<script>
+  var socket;
+function f1(){
+   socket=io.connect('http://localhost:3000');  //connect to server
+socket.on('connect',function(){
+  console.log('connected');
+});
+// socket.on('value',show);
+socket.on('value',msg)
+}
+// function show(data){  
+// // document.getElementById('give').innerText=data;
+// console.log(data);
+// document.getElementById('fill').value=data;
+
+// }
+  //  console.log("hello");
+  var a="";
+//   function f2(){
+//     var x=document.getElementById("give").value;
+//     console.log(x);
+//     socket.emit('value',x);
+    
+//     socket.on('value',function(data){
+    
+//      a=a+data;
+     
+
+//     });
+//   }
+// console.log(a);
+
+
+//   var data=document.getElementById('give').value;
+//   // console.log(data);
+//   socket.emit('value',data);
+
+//   socket.on('value',function(data){
+//     console.log(data);
+//   });
+// }
+let textarea = document.getElementById("give");
+textarea.addEventListener("input",event=>{
+   var x = event.data;
+    socket.emit('value',x);
+  
+     
+  
+
+});
+
+    function msg(data){
+      // console.log(data);
+      if(data!=null){
+        a=a+data;
+      }
+      
+      // a+=data;
+      if(data!="null"){
+      textarea.value=a;
+        
+      }
+      else{
+        textarea.value="";
+
+      }
+      // textarea.value=a;
+     
+    }
+</script>
+</html>
+
+
